@@ -1,9 +1,12 @@
 <h1 align="center"><a href="https://discord.gg/brocode" target="_blank" rel="noopener noreferrer">ox_inventory customized by Bro Code</a></h1>
 
-This inventory is a fork from the original ox_inventory. This fork is customized by Bro Code and we will try our best to maintain it. We have added features like Body Stats System and Completely changed the Design of the Inventory. We currently do not offer the source code, but eventually it will be released soon. Rest of the features are same as the original ox_inventory. It has a dependency of **BC_Wounding** for the Body Stats System. You can find the BC_Wounding resource [here](https://brocode.tebex.io/package/6121826)
+This inventory is a fork from the original ox_inventory. This fork is customized by Bro Code and we will try our best to maintain it. We have added features like Body Stats System and Completely changed the Design of the Inventory. We currently do not offer the source code, but eventually it will be released soon. Rest of the features are same as the original ox_inventory. It has a dependency of **BC_Wounding** for the Body Stats System. You can find the **BC_Wounding** resource [here](https://brocode.tebex.io/package/6121826)
 
 ## Preview
+*(Video Preview Soon)*
+<div align='center'><img src='https://cdn.discordapp.com/attachments/1188413681655095316/1197824528739487754/image.png'/></div>
 
+#
 
 <div align='center'><img src='https://user-images.githubusercontent.com/65407488/147992899-93998c0a-75fb-4055-8c06-8da8c49342d6.png'/>
 <h2><a href='https://overextended.dev/ox_inventory'>Documentation</a></h3></div>
