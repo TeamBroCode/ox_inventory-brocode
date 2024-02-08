@@ -156,7 +156,6 @@ function client.openInventory(inv, data)
 	end
 
 	if canOpenInventory() then
-		TriggerEvent('ox_inventory:updatedamageforplayer')
 		local left, right
 
 		if inv == 'player' and data ~= cache.serverId then
@@ -1297,6 +1296,7 @@ RegisterNetEvent('ox_inventory:setPlayerInventory', function(currentDrops, inven
 	if registerCommands then registerCommands() end
 
 	TriggerEvent('ox_inventory:updateInventory', PlayerData.inventory)
+	TriggerEvent('ox_inventory:updatedamageforplayer')
 
 	client.interval = SetInterval(function()
 		if invOpen == false then
@@ -1880,7 +1880,8 @@ RegisterNetEvent('ox_inventory:updatedamageforplayer', function()
 			bodypercent[k].bleeding = true
 		end
 		if v.bullet and v.bullet >= 0 then
-			bodypercent[k].percent = bodypercent[k].percent + v.bullet * 10
+			local bulletCalc = math.floor(v.bullet * 10)
+			bodypercent[k].percent = bodypercent[k].percent + bulletCalc
 			bodypercent[k].bullets = v.bullet
 		end
 		-- Ensure the value does not exceed 100
@@ -1893,6 +1894,55 @@ RegisterNetEvent('ox_inventory:updatedamageforplayer', function()
 		data = bodypercent
 	})
 end)
+
+RegisterNetEvent('ox_inventory:UpdatePlayerDamage', function()
+	local GetPlayerDamage = exports.BC_Wounding:GetPlayerDamage()
+	for k, v in pairs(GetPlayerDamage) do
+		if v.severity then
+			bodypercent[k].percent = bodypercent[k].percent + 40
+			bodypercent[k].severity = true
+		end
+		if not v.severity then
+			bodypercent[k].severity = false
+			bodypercent[k].percent = bodypercent[k].percent - 40
+		end
+		if v.broken then
+			bodypercent[k].percent = bodypercent[k].percent + 20
+			bodypercent[k].broken = true
+		end
+		if not v.broken then
+			bodypercent[k].broken = false
+			bodypercent[k].percent = bodypercent[k].percent - 20
+		end
+		if v.bleeding then
+			bodypercent[k].percent = bodypercent[k].percent + 10
+			bodypercent[k].bleeding = true
+		end
+		if not v.bleeding then
+			bodypercent[k].bleeding = false
+			bodypercent[k].percent = bodypercent[k].percent - 10
+		end
+		if v.bullet and v.bullet >= 0 then
+			local bulletCalc = math.floor(v.bullet * 10)
+			bodypercent[k].percent = bodypercent[k].percent + bulletCalc
+			bodypercent[k].bullets = v.bullet
+		end
+		if v.bullet ~= bodypercent[k].bullets then
+			local bulletCalc = math.floor(v.bullet * 10)
+			bodypercent[k].percent = bodypercent[k].percent - bulletCalc
+			bodypercent[k].bullets = v.bullet
+		end
+		-- Ensure the value does not exceed 100
+        if bodypercent[k].percent > 100 then
+            bodypercent[k].percent = 100
+        end
+	end
+	SendNUIMessage({
+		action = 'DamageCall',
+		data = bodypercent
+	})
+end)
+
 RegisterNetEvent('ox_inventory:resetdamageforplayer', function()
     for k, v in pairs(bodypercent) do
         v.percent = 0
